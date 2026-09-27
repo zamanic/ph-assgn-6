@@ -53,9 +53,11 @@ const FitLogProvider = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setTodaysPlan(loadFromStorage<IPlanWorkout[]>(STORAGE_KEY_PLAN, []));
-    setSaved(loadFromStorage<IPlanWorkout[]>(STORAGE_KEY_SAVED, []));
-    setIsLoaded(true);
+    queueMicrotask(() => {
+      setTodaysPlan(loadFromStorage<IPlanWorkout[]>(STORAGE_KEY_PLAN, []));
+      setSaved(loadFromStorage<IPlanWorkout[]>(STORAGE_KEY_SAVED, []));
+      setIsLoaded(true);
+    });
   }, []);
 
   useEffect(() => {
@@ -106,7 +108,7 @@ const FitLogProvider = ({ children }: { children: ReactNode }) => {
 
   const markAsDone = (id: string) => {
     setTodaysPlan((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, isDone: true } : w))
+      prev.map((w) => (w.id === id ? { ...w, isDone: true } : w)),
     );
   };
 
@@ -114,11 +116,11 @@ const FitLogProvider = ({ children }: { children: ReactNode }) => {
   const savedCount = saved.length;
   const totalMinutes = todaysPlan.reduce(
     (sum, w) => sum + (w.duration || 0),
-    0
+    0,
   );
   const totalCalories = todaysPlan.reduce(
     (sum, w) => sum + (w.calories || 0),
-    0
+    0,
   );
 
   const sharedData: IFitLogContext = {

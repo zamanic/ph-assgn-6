@@ -2,39 +2,39 @@
 
 **FitLog** is a dynamic, dark-themed Next.js workout companion built with the App Router, TypeScript, Tailwind CSS, daisyUI, and React Toastify. Browse a curated library of 12 compound and isolation lifts, lock them into **Today's Plan**, save them for later, and track your volume in real-time with live stat counters, sortable tabs, and smooth toast notifications.
 
-Live site style reference: [workout-library-nine.vercel.app](https://workout-library-nine.vercel.app/)
-
----
-
 ## 🚀 Tech Stack
 
-| Layer        | Technology                                       |
-| ------------ | ------------------------------------------------ |
-| Framework    | Next.js 16 (App Router, React 19, TypeScript)    |
-| Styling      | Tailwind CSS v4 + daisyUI + custom dark theme    |
-| UI Lib       | daisyUI components                               |
-| State        | React Context API (`FitLogContext`)              |
-| Notifications| React Toastify                                   |
-| Fonts        | Geist (Sans/Mono) + Oswald (display headings)    |
-| Persistence  | `localStorage` (auto-saves Today's Plan + Saved) |
-| Data         | External REST APIs + built-in fallback dataset   |
-| Deploy       | Vercel / Netlify / Cloudflare Pages ready        |
+| Layer         | Technology                                       |
+| ------------- | ------------------------------------------------ |
+| Framework     | Next.js 16 (App Router, React 19, TypeScript)    |
+| Styling       | Tailwind CSS v4 + daisyUI + custom dark theme    |
+| UI Lib        | daisyUI components                               |
+| State         | React Context API (`FitLogContext`)              |
+| Notifications | React Toastify                                   |
+| Fonts         | Geist (Sans/Mono) + Oswald (display headings)    |
+| Persistence   | `localStorage` (auto-saves Today's Plan + Saved) |
+| Data          | External REST APIs + built-in fallback dataset   |
+| Deploy        | Vercel / Netlify / Cloudflare Pages ready        |
 
 ---
 
 ## ✨ 5 Key Features
 
 ### 1. 📚 **The 12-Lift Workout Library (3×4 Grid)**
+
 A responsive 3-column library (collapses to 1 on mobile, 2 on tablet) of 12 curated compound + isolation lifts, rendered from the FitLog API with a hand-crafted fallback dataset embedded right into the app so it always works offline. Each card ships with an illustration, category badge pills, workout name, equipment line, and a stats row (**duration · calories · rating**).
 
 ### 2. 🧭 **Full App Router Navigation + Dynamic Detail Pages**
+
 - **`/`** → Workouts Library (home) with Hero Banner + The Library section.
 - **`/workouts/[id]`** → Dynamic detail page with left-column image, full specs table (Equipment / Difficulty / Sets / Reps / Duration / Calories / Rating), numbered step-by-step instructions, and two CTAs.
 - **`/my-plan`** → Today's Plan + Saved dashboard with live stat cards, sortable tabs, per-card actions, and an empty state with CTA back to the library.
 - **`not-found.tsx`** → Custom branded 404 page for any unknown route.
 
 ### 3. 🎯 **Global Context API with Today's Plan / Saved + Toast Feedback**
+
 The `FitLogContext` wraps the whole app (see `src/context/FitLogContext.tsx`) and exposes:
+
 - `addToTodaysPlan()` / `addToSaved()` — **automatically prevents duplicate entries** and fires a toast (`Already in your plan`).
 - `removeFromTodaysPlan()` / `removeFromSaved()` — removes items and confirms with a toast.
 - `markAsDone()` — toggles a green "Completed/Done" badge and line-through style.
@@ -43,7 +43,9 @@ The `FitLogContext` wraps the whole app (see `src/context/FitLogContext.tsx`) an
 Toasts are powered by `react-toastify` with `success`, `info`, and `warn` variants for every user action.
 
 ### 4. 📊 **My Plan Dashboard — Live Stats, Tabs & Sort By Dropdown**
+
 The `/my-plan` page is a workout log hub:
+
 - **3 Stat Cards**: Exercises / Minutes / Calories computed as the sum of items in Today's Plan (updates live as items are added / removed).
 - **2 Tabs**: `Today's Plan` / `Saved` with per-tab item counts.
 - **Sort By dropdown**: Duration (default) / Calories / Rating — descending order, reapplied instantly via `useMemo`.
@@ -51,6 +53,7 @@ The `/my-plan` page is a workout log hub:
 - **Empty state**: "Nothing here yet" + Go to Workouts CTA.
 
 ### 5. 💾 **Auto-Persistence + Loading States + Responsive Dark UI**
+
 - `localStorage` keeps **Today's Plan** and **Saved** across full page reloads and deployments.
 - Global `loading.tsx`, skeleton loader (`LibrarySkeleton`) for the Library grid, and a Suspense fallback for the My Plan tab (shows "Loading workouts…").
 - Mobile-friendly hamburger dropdown in the Navbar, hero stacks on small screens, library grid collapses correctly, My Plan cards reflow vertically — fully responsive on **mobile, tablet, desktop**.
@@ -112,16 +115,19 @@ fitlog-app/
 FitLog tries both endpoints in order, then falls back to the bundled 12-workout dataset — so the app **never shows an empty library**, even if the network is down.
 
 **All workouts:**
-1. `https://api.api-store.workers.dev/api/fitlog`  — (primary, 8s timeout)
-2. `https://api.abcz.workers.dev/api/fitlog`       — (secondary fallback)
+
+1. `https://api.api-store.workers.dev/api/fitlog` — (primary, 8s timeout)
+2. `https://api.abcz.workers.dev/api/fitlog` — (secondary fallback)
 3. `fallbackWorkouts` — embedded dataset (always works)
 
 **Single workout by id:**
+
 1. `https://api.api-store.workers.dev/api/fitlog/:id`
 2. `https://api.abcz.workers.dev/api/fitlog/:id`
 3. `fallbackWorkouts.find(id => …)`
 
 See:
+
 - [page.tsx](file:///D:/Development%20steps/NEXT/fitlog-app/src/app/page.tsx) — library fetch + timeout + fallback
 - [workouts/[id]/page.tsx](file:///D:/Development%20steps/NEXT/fitlog-app/src/app/workouts/%5Bid%5D/page.tsx) — dynamic route single-workout fetch with `notFound()`
 
@@ -151,6 +157,7 @@ npm run lint
 ```
 
 **Deploy sequence we recommend:**
+
 1. `npm run build` — fix any warnings/errors.
 2. `npm run start` — smoke-test the production build on `:3000`.
 3. Push to GitHub → import into Vercel → deploy (zero config needed for default Next.js App Router).
