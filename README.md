@@ -159,6 +159,41 @@ npm run lint
 
 ---
 
+## 🖼️ Static Assets (copy into /public after cloning)
+
+Two binary images ship with the local project but aren't tracked in every fresh clone. Copy them into `public/`:
+
+```bash
+# From the project root (Windows / PowerShell):
+copy "D:\Development steps\NEXT\assets\banner.png"  public\banner.png
+copy "D:\Development steps\NEXT\assets\logo.png"    public\logo.png
+
+# Cross-platform (if you have a source folder):
+# cp /path/to/assets/banner.png public/
+# cp /path/to/assets/logo.png   public/
+```
+
+- `public/banner.png` — hero section illustration (aspect 4:5, 800–1200px wide recommended)
+- `public/logo.png` — Navbar + Footer FitLog logo (32×32px)
+
+> Missing these? The app auto-falls back to Unsplash images at runtime via the `onError` handlers in `src/components/homepage/HeroBanner.tsx` and `src/components/shared/WorkoutCard.tsx` — no 404s, no crashes.
+
+---
+
+## ⚡ Quick Start (TL;DR)
+
+```bash
+git clone https://github.com/zamanic/ph-assgn-6.git fitlog-app
+cd fitlog-app
+# (copy banner.png + logo.png into public/ — see section above)
+npm install
+npm run dev        # → http://localhost:3000
+npm run build      # production build (run BEFORE deploying to Vercel)
+npm run lint       # lint check
+```
+
+---
+
 ## 📋 Features Checklist (Instructions v1)
 
 - [x] Responsive on **mobile / tablet / desktop**
