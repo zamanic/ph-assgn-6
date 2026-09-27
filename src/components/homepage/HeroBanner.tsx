@@ -105,9 +105,6 @@ const HeroBanner = () => {
                 </div>
               </div>
             </div>
-
-            <div className="absolute -top-4 -right-4 w-20 h-20 rounded-2xl border-2 border-[#ccff00]/30 hidden lg:block" />
-            <div className="absolute -bottom-4 -left-4 w-14 h-14 rounded-full bg-[#ccff00]/10 border border-[#ccff00]/20 hidden lg:block" />
           </div>
         </div>
       </div>
