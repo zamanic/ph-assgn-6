@@ -39,10 +39,9 @@ const WorkoutDetailsClient = ({ workout }: WorkoutDetailsClientProps) => {
       });
       return;
     }
-    toast.success("Added to today's plan", {
+    toast.success("Added to today's plan 💪", {
       position: "top-right",
       autoClose: 2500,
-      icon: "💪",
     });
   };
 
@@ -55,10 +54,9 @@ const WorkoutDetailsClient = ({ workout }: WorkoutDetailsClientProps) => {
       });
       return;
     }
-    toast.success("Saved for later", {
+    toast.success("Saved for later 📌", {
       position: "top-right",
       autoClose: 2500,
-      icon: "📌",
     });
   };
 

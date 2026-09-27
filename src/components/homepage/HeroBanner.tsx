@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 const HeroBanner = () => {
@@ -56,7 +58,10 @@ const HeroBanner = () => {
             </button>
           </div>
 
-          <div className="relative animate-fade-in" style={{ animationDelay: "150ms" }}>
+          <div
+            className="relative animate-fade-in"
+            style={{ animationDelay: "150ms" }}
+          >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-neutral-800 aspect-[4/5] max-w-md mx-auto lg:mx-0 lg:ml-auto">
               <Image
                 src="/banner.png"
