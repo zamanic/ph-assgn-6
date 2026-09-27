@@ -7,7 +7,12 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { IFitLogContext, IPlanWorkout, IWorkout } from "@/types/workout.type";
+import {
+  IFitLogContext,
+  IPlanWorkout,
+  IWorkout,
+  getCalories,
+} from "@/types/workout.type";
 
 const FitLogContext = createContext<IFitLogContext>({
   todaysPlan: [],
@@ -118,10 +123,7 @@ const FitLogProvider = ({ children }: { children: ReactNode }) => {
     (sum, w) => sum + (w.duration || 0),
     0,
   );
-  const totalCalories = todaysPlan.reduce(
-    (sum, w) => sum + (w.calories || 0),
-    0,
-  );
+  const totalCalories = todaysPlan.reduce((sum, w) => sum + getCalories(w), 0);
 
   const sharedData: IFitLogContext = {
     todaysPlan,

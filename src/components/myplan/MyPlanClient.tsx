@@ -5,7 +5,11 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { useFitLog } from "@/context/FitLogContext";
-import { IPlanWorkout } from "@/types/workout.type";
+import {
+  IPlanWorkout,
+  getCalories,
+  getMuscleGroups,
+} from "@/types/workout.type";
 
 type SortKey = "duration" | "calories" | "rating";
 type TabKey = "plan" | "saved";
@@ -29,6 +33,9 @@ const PlanCard = ({
       ? workout.image
       : fallbackImage;
 
+  const muscleGroups = getMuscleGroups(workout);
+  const calories = getCalories(workout);
+
   return (
     <div
       className={`group bg-neutral-900 border rounded-xl overflow-hidden transition-all duration-300 hover:border-neutral-600 ${
@@ -49,12 +56,12 @@ const PlanCard = ({
             }}
           />
           <div className="absolute top-2 left-2 flex flex-wrap gap-1.5">
-            {(workout.badges || []).slice(0, 2).map((badge) => (
+            {muscleGroups.slice(0, 2).map((mg) => (
               <span
-                key={badge}
-                className="px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase bg-black/70 backdrop-blur-sm text-[#ccff00] border border-[#ccff00]/30"
+                key={mg}
+                className="px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase bg-black/70 backdrop-blur-sm text-white border border-neutral-500"
               >
-                {badge}
+                {mg}
               </span>
             ))}
           </div>
@@ -148,7 +155,7 @@ const PlanCard = ({
                   d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
                 />
               </svg>
-              <span>{workout.calories} kcal</span>
+              <span>{calories} kcal</span>
             </div>
             <div className="flex items-center gap-1.5">
               <svg
@@ -242,7 +249,7 @@ const MyPlanClient = () => {
     const copy = [...currentList];
     copy.sort((a, b) => {
       if (sortBy === "duration") return (b.duration || 0) - (a.duration || 0);
-      if (sortBy === "calories") return (b.calories || 0) - (a.calories || 0);
+      if (sortBy === "calories") return getCalories(b) - getCalories(a);
       if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0);
       return 0;
     });

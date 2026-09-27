@@ -126,11 +126,6 @@ FitLog tries both endpoints in order, then falls back to the bundled 12-workout 
 2. `https://api.abcz.workers.dev/api/fitlog/:id`
 3. `fallbackWorkouts.find(id => …)`
 
-See:
-
-- [page.tsx](file:///D:/Development%20steps/NEXT/fitlog-app/src/app/page.tsx) — library fetch + timeout + fallback
-- [workouts/[id]/page.tsx](file:///D:/Development%20steps/NEXT/fitlog-app/src/app/workouts/%5Bid%5D/page.tsx) — dynamic route single-workout fetch with `notFound()`
-
 ---
 
 ## 🏃 Commands — Run Before Deploying to Vercel
@@ -182,4 +177,4 @@ npm run lint
 
 ---
 
-Train hard, log honest. 💪
+💪

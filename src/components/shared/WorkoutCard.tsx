@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { IWorkout } from "@/types/workout.type";
+import { IWorkout, getCalories, getMuscleGroups } from "@/types/workout.type";
 
 interface WorkoutCardProps {
   workout: IWorkout;
@@ -16,6 +16,9 @@ const WorkoutCard = ({ workout }: WorkoutCardProps) => {
     (workout.image.startsWith("http") || workout.image.startsWith("/"))
       ? workout.image
       : fallbackImage;
+
+  const muscleGroups = getMuscleGroups(workout);
+  const calories = getCalories(workout);
 
   return (
     <Link href={`/workouts/${workout.id}`} className="group block">
@@ -32,19 +35,25 @@ const WorkoutCard = ({ workout }: WorkoutCardProps) => {
               target.src = fallbackImage;
             }}
           />
-          <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-            {(workout.badges || []).slice(0, 2).map((badge) => (
-              <span
-                key={badge}
-                className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-black/70 backdrop-blur-sm text-[#ccff00] border border-[#ccff00]/30"
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
         </div>
 
         <div className="p-5 flex flex-col flex-1">
+          {muscleGroups.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 self-center mr-1">
+                Muscle Groups:
+              </span>
+              {muscleGroups.slice(0, 4).map((mg) => (
+                <span
+                  key={mg}
+                  className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase text-white bg-transparent border border-neutral-600 hover:border-[#ccff00] hover:text-[#ccff00] transition-colors"
+                >
+                  {mg}
+                </span>
+              ))}
+            </div>
+          )}
+
           <h3 className="text-base font-black uppercase tracking-tight text-white leading-tight mb-2 line-clamp-2">
             {workout.name}
           </h3>
@@ -83,7 +92,7 @@ const WorkoutCard = ({ workout }: WorkoutCardProps) => {
                   d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
                 />
               </svg>
-              <span>{workout.calories} kcal</span>
+              <span>{calories} kcal</span>
             </div>
             <div className="flex items-center gap-1.5 ml-auto">
               <svg

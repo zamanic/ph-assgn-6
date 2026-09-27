@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useFitLog } from "@/context/FitLogContext";
-import { IWorkout } from "@/types/workout.type";
+import { IWorkout, getCalories, getMuscleGroups } from "@/types/workout.type";
 
 interface WorkoutDetailsClientProps {
   workout: IWorkout;
@@ -22,6 +22,9 @@ const WorkoutDetailsClient = ({ workout }: WorkoutDetailsClientProps) => {
     (workout.image.startsWith("http") || workout.image.startsWith("/"))
       ? workout.image
       : fallbackImage;
+
+  const muscleGroups = getMuscleGroups(workout);
+  const calories = getCalories(workout);
 
   const handleAddToPlan = () => {
     if (planCount >= 5) {
@@ -66,7 +69,7 @@ const WorkoutDetailsClient = ({ workout }: WorkoutDetailsClientProps) => {
     { label: "Sets", value: workout.sets ? String(workout.sets) : "—" },
     { label: "Reps", value: workout.reps || "—" },
     { label: "Duration", value: `${workout.duration || 0} min` },
-    { label: "Calories", value: `${workout.calories || 0} kcal` },
+    { label: "Calories", value: `${calories} kcal` },
     { label: "Rating", value: String(workout.rating || "—") },
   ];
 
@@ -111,12 +114,12 @@ const WorkoutDetailsClient = ({ workout }: WorkoutDetailsClientProps) => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             <div className="absolute top-5 left-5 flex flex-wrap gap-2">
-              {(workout.badges || []).map((badge) => (
+              {muscleGroups.map((mg) => (
                 <span
-                  key={badge}
-                  className="px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-black/70 backdrop-blur-sm text-[#ccff00] border border-[#ccff00]/30"
+                  key={mg}
+                  className="px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase bg-black/70 backdrop-blur-sm text-white border border-neutral-500"
                 >
-                  {badge}
+                  {mg}
                 </span>
               ))}
             </div>
@@ -136,12 +139,12 @@ const WorkoutDetailsClient = ({ workout }: WorkoutDetailsClientProps) => {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-8">
-              {(workout.badges || []).map((badge) => (
+              {muscleGroups.map((mg) => (
                 <span
-                  key={badge}
-                  className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase text-neutral-300 bg-neutral-800 border border-neutral-700"
+                  key={mg}
+                  className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase text-white bg-transparent border border-neutral-600 hover:border-[#ccff00] hover:text-[#ccff00] transition-colors"
                 >
-                  {badge}
+                  {mg}
                 </span>
               ))}
             </div>
